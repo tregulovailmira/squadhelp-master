@@ -1,8 +1,7 @@
 const bd = require('../models/index');
-const NotFound = require('../errors/UserNotFoundError');
 const RightsError = require('../errors/RightsError');
 const ServerError = require('../errors/ServerError');
-import CONSTANTS from '../../constants';
+const CONSTANTS = require('../constants');
 
 module.exports.parseBody = (req, res, next) => {
   req.body.contests = JSON.parse(req.body.contests);
@@ -36,7 +35,7 @@ module.exports.canGetContest = async (req, res, next) => {
         },
       });
     }
-    !!result ? next() : next(new RightsError());
+    result ? next() : next(new RightsError());
   } catch (e) {
     next(new ServerError(e));
   }
@@ -91,7 +90,7 @@ module.exports.onlyForCustomerWhoCreateContest = async (req, res, next) => {
         status: CONSTANTS.CONTEST_STATUS_ACTIVE,
       },
     });
-    if ( !result) {
+    if (!result) {
       return next(new RightsError());
     }
     next();
@@ -109,7 +108,7 @@ module.exports.canUpdateContest = async (req, res, next) => {
         status: { [ bd.Sequelize.Op.not ]: CONSTANTS.CONTEST_STATUS_FINISHED },
       },
     });
-    if ( !result) {
+    if (!result) {
       return next(new RightsError());
     }
     next();

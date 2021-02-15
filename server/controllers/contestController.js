@@ -1,15 +1,14 @@
 const db = require('../models/index');
-import ServerError from '../errors/ServerError';
+const ServerError = require('../errors/ServerError');
 
 const contestQueries = require('./queries/contestQueries');
 const userQueries = require('./queries/userQueries');
-const controller = require('../../socketInit');
+const controller = require('../socketInit');
 const UtilFunctions = require('../utils/functions');
-const NotFound = require('../errors/UserNotFoundError');
-const CONSTANTS = require('../../constants');
+const CONSTANTS = require('../constants');
 
 module.exports.dataForContest = async (req, res, next) => {
-  let response = {};
+  const response = {};
   try {
     const characteristics = await db.Selects.findAll({
       where: {
@@ -22,11 +21,11 @@ module.exports.dataForContest = async (req, res, next) => {
         },
       },
     });
-    if ( !characteristics) {
+    if (!characteristics) {
       return next(new ServerError());
     }
     characteristics.forEach(characteristic => {
-      if ( !response[ characteristic.type ]) {
+      if (!response[ characteristic.type ]) {
         response[ characteristic.type ] = [];
       }
       response[ characteristic.type ].push(characteristic.describe);
@@ -134,7 +133,7 @@ module.exports.setNewOffer = async (req, res, next) => {
   obj.userId = req.tokenData.userId;
   obj.contestId = req.body.contestId;
   try {
-    let result = await contestQueries.createOffer(obj);
+    const result = await contestQueries.createOffer(obj);
     delete result.contestId;
     delete result.userId;
     controller.getNotificationController().emitEntryCreated(
@@ -164,7 +163,7 @@ const resolveOffer = async (
             ELSE '${ CONSTANTS.CONTEST_STATUS_PENDING }'
             END
     `),
-  }, { orderId: orderId }, transaction);
+  }, { orderId }, transaction);
   await userQueries.updateUser(
     { balance: db.sequelize.literal('balance + ' + finishedContest.prize) },
     creatorId, transaction);
@@ -175,7 +174,7 @@ const resolveOffer = async (
             END
     `),
   }, {
-    contestId: contestId,
+    contestId,
   }, transaction);
   transaction.commit();
   const arrayRoomsId = [];
@@ -270,5 +269,5 @@ module.exports.getContests = (req, res, next) => {
     })
     .catch(err => {
       next(new ServerError());
-    })
+    });
 };

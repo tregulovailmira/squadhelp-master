@@ -1,11 +1,9 @@
 const Conversation = require('../models/mongoModels/conversation');
 const Message = require('../models/mongoModels/Message');
 const Catalog = require('../models/mongoModels/Catalog');
-const moment = require('moment');
 const db = require('../models/index');
 const userQueries = require('./queries/userQueries');
-const controller = require('../../socketInit');
-const _ = require('lodash');
+const controller = require('../socketInit');
 
 module.exports.addMessage = async (req, res, next) => {
   const participants = [req.tokenData.userId, req.body.recipient];
@@ -13,15 +11,15 @@ module.exports.addMessage = async (req, res, next) => {
     (participant1, participant2) => participant1 - participant2);
   try {
     const newConversation = await Conversation.findOneAndUpdate({
-        participants,
-      },
-      { participants, blackList: [false, false], favoriteList: [false, false] },
-      {
-        upsert: true,
-        new: true,
-        setDefaultsOnInsert: true,
-        useFindAndModify: false,
-      });
+      participants,
+    },
+    { participants, blackList: [false, false], favoriteList: [false, false] },
+    {
+      upsert: true,
+      new: true,
+      setDefaultsOnInsert: true,
+      useFindAndModify: false,
+    });
     const message = new Message({
       sender: req.tokenData.userId,
       body: req.body.messageBody,
@@ -41,7 +39,7 @@ module.exports.addMessage = async (req, res, next) => {
       favoriteList: newConversation.favoriteList,
     };
     controller.getChatController().emitNewMessage(interlocutorId, {
-      message: message,
+      message,
       preview: {
         _id: newConversation._id,
         sender: req.tokenData.userId,
