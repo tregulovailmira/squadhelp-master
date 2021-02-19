@@ -7,10 +7,7 @@ const checkToken = require('./middlewares/checkToken');
 const validators = require('./middlewares/validators');
 const chatController = require('./controllers/chatController');
 const upload = require('./utils/fileUpload');
-const contestRouter = require('./routers/contestRouter');
-const userRouter = require('./routers/userRouter');
-const customerRouter = require('./routers/customerRouter');
-const authRouter = require('./routers/authRouter');
+const { contestRouter, userRouter, customerRouter, authRouter } = require('./routers');
 
 const router = Router();
 
