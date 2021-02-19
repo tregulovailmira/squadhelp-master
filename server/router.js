@@ -8,77 +8,26 @@ const validators = require('./middlewares/validators');
 const chatController = require('./controllers/chatController');
 const upload = require('./utils/fileUpload');
 const contestRouter = require('./routers/contestRouter');
+const userRouter = require('./routers/userRouter');
+const customerRouter = require('./routers/customerRouter');
+const authRouter = require('./routers/authRouter');
 
 const router = Router();
 
 // authRouter
 
-router.post(
-  '/registration',
-  validators.validateRegistrationData,
-  hashPass,
-  userController.registration,
-);
+router.use('/', authRouter);
 
-router.post(
-  '/login',
-  validators.validateLogin,
-  userController.login,
-);
+//userRouter
 
-router.post(
-  '/getUser',
-  checkToken.checkAuth,
-);
+router.use('/users', userRouter);
 
 // contestRouter
 router.use('/contests', contestRouter);
 
-router.post(
-  '/dataForContest',
-  checkToken.checkToken,
-  contestController.dataForContest,
-);
-
-// router.get(
-//   '/getContestById',
-//   checkToken.checkToken,
-//   basicMiddlewares.canGetContest,
-//   contestController.getContestById,
-// );
-
-// router.post(
-//   '/updateContest',
-//   ,
-// );
-
-// paymentRouter
-
-router.post(
-  '/pay',
-  checkToken.checkToken,
-  basicMiddlewares.onlyForCustomer,
-  upload.uploadContestFiles,
-  basicMiddlewares.parseBody,
-  validators.validateContestCreation,
-  userController.payment,
-);
-
 //customerRouter
+router.use('/customer', customerRouter);
 
-router.post(
-  '/getCustomersContests',
-  checkToken.checkToken,
-  contestController.getCustomersContests,
-);
-
-// userRouter
-router.post(
-  '/updateUser',
-  checkToken.checkToken,
-  upload.uploadAvatar,
-  userController.updateUser,
-);
 ////
 router.get(
   '/downloadFile/:fileName',
@@ -182,8 +131,5 @@ router.post(
   checkToken.checkToken,
   chatController.getCatalogs,
 );
-
-module.exports = router;
-
 
 module.exports = router;
