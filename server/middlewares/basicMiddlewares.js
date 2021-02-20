@@ -1,4 +1,4 @@
-const bd = require('../models/index');
+const bd = require('../models');
 const RightsError = require('../errors/RightsError');
 const ServerError = require('../errors/ServerError');
 const CONSTANTS = require('../constants');

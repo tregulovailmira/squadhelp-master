@@ -1,4 +1,4 @@
-'use strict';
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Banks', {
@@ -25,8 +25,9 @@ module.exports = {
         defaultValue: 0,
       },
     })
-      .then(() => queryInterface.addConstraint('Banks', ['balance'], {
+      .then(() => queryInterface.addConstraint('Banks', {
         type: 'check',
+        fields: ['balance'],
         where: {
           balance: {
             [ Sequelize.Op.gte ]: 0,
