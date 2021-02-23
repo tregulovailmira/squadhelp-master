@@ -1,6 +1,6 @@
+const _ = require('lodash');
 const db = require('../models');
 const ServerError = require('../errors/ServerError');
-
 const contestQueries = require('./queries/contestQueries');
 const userQueries = require('./queries/userQueries');
 const controller = require('../socketInit');
@@ -13,11 +13,11 @@ module.exports.dataForContest = async (req, res, next) => {
     const characteristics = await db.Selects.findAll({
       where: {
         type: {
-          [ db.Sequelize.Op.or ]: [
+          [ db.Sequelize.Op.or ]: _.compact([
             req.body.characteristic1,
             req.body.characteristic2,
             'industry',
-          ],
+          ]),
         },
       },
     });
@@ -242,18 +242,20 @@ module.exports.getCustomersContests = (req, res, next) => {
 };
 
 module.exports.getContests = (req, res, next) => {
-  const predicates = UtilFunctions.createWhereForAllContests(req.body.typeIndex,
-    req.body.contestId, req.body.industry, req.body.awardSort);
+  const { query: { offset, limit, typeIndex, contestId, industry, awardSort, ownEntries } } = req;
+
+  const predicates = UtilFunctions.createWhereForAllContests(typeIndex,
+    contestId, industry, awardSort);
   db.Contests.findAll({
     where: predicates.where,
     order: predicates.order,
-    limit: req.body.limit,
-    offset: req.body.offset ? req.body.offset : 0,
+    limit,
+    offset: offset ? offset : 0,
     include: [
       {
         model: db.Offers,
-        required: req.body.ownEntries,
-        where: req.body.ownEntries ? { userId: req.tokenData.userId } : {},
+        required: ownEntries,
+        where: ownEntries ? { userId: req.tokenData.userId } : {},
         attributes: ['id'],
       },
     ],
