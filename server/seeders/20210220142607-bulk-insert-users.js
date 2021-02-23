@@ -1,3 +1,4 @@
+
 const { hash } = require('bcrypt');
 const CONSTANTS = require('./../constants');
 
@@ -10,7 +11,7 @@ module.exports = {
       password: await hash('123456', CONSTANTS.SALT_ROUNDS),
       email: 'qwertyb@qwerty.qwerty',
       avatar: 'anon.png',
-      role: 'customer',
+      role: CONSTANTS.CUSTOMER,
       balance: 100000,
     }, {
       firstName: 'creativef',
@@ -19,7 +20,7 @@ module.exports = {
       password: await hash('123456', CONSTANTS.SALT_ROUNDS),
       email: 'qwertyc@qwerty.qwerty',
       avatar: 'anon.png',
-      role: 'creator',
+      role: CONSTANTS.CREATOR,
       balance: 100,
     }], {});
   },
@@ -27,7 +28,7 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     await queryInterface.bulkDelete('Users', {
       email: {
-        [Sequelize.Op.in]:['qwertyb@qwerty.qwerty', 'qwertyc@qwerty.qwerty'],
+        [ Sequelize.Op.in]:['qwertyb@qwerty.qwerty', 'qwertyc@qwerty.qwerty'],
       },
     }, {});
   },
