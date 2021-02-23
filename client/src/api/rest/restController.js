@@ -2,7 +2,7 @@ import http from '../interceptor';
 
 export const registerRequest = (data) => http.post('/sighup', data);
 export const loginRequest = (data) => http.post('/sighin', data);
-export const getUser = () => http.get('/users/authUser');
+export const getUser = () => http.get('/authUser');
 export const updateContest = data => http.put(`/contests/${data.contestId}`, data);
 export const setNewOffer = data => http.post('setNewOffer', data);
 export const setOfferStatus = data => http.post('setOfferStatus', data);
@@ -32,7 +32,7 @@ export const getCustomersContests = (data) => {
 };
 
 export const getActiveContests = ({offset, limit, typeIndex, contestId, industry, awardSort, ownEntries}) => {
-    return http.get('/contests', {offset, limit, typeIndex, contestId, industry, awardSort, ownEntries})
+    return http.get(`/contests?offset=${offset}&limit=${limit}&typeIndex=${typeIndex}&contestId=${contestId}&industry=${industry}&awardSort=${awardSort}&ownEntries=${ownEntries}`)
 };
 
 export const getContestById = ({contestId}) => {
