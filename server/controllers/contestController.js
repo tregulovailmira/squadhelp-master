@@ -264,12 +264,12 @@ module.exports.getContests = (req, res, next) => {
       contests.forEach(
         contest => contest.dataValues.count = contest.dataValues.Offers.length);
       let haveMore = true;
-      if (contests.length === 0) {
+      if (contests.length < limit) {
         haveMore = false;
       }
       res.send({ contests, haveMore });
     })
     .catch(err => {
-      next(new ServerError());
+      next(new ServerError(err));
     });
 };

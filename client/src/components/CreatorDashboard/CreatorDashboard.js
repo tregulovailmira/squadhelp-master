@@ -40,7 +40,7 @@ class CreatorDashboard extends React.Component {
         const array = [];
         const {creatorFilter} = this.props;
         const {industry} = this.props.dataForContest.data;
-        array.push(<option key={0} value={null}>Choose industry</option>);
+        array.push(<option key={0} value={''}>Choose industry</option>);
         industry.forEach((industry, i) => array.push(<option key={i + 1} value={industry}>{industry}</option>));
         return (
             <select onChange={({target}) => this.changePredicate({
@@ -110,16 +110,22 @@ class CreatorDashboard extends React.Component {
     getPredicateOfRequest = () => {
         const obj = {};
         const {creatorFilter} = this.props;
-        Object.keys(creatorFilter).forEach((el) => {
-            if (creatorFilter[el]) {
-                obj[el] = creatorFilter[el];
-            }
-        });
-        obj.ownEntries = creatorFilter.ownEntries;
-        return obj;
+        console.log(creatorFilter);
+        // Object.keys(creatorFilter).forEach((el) => {
+        //     if (creatorFilter[el]) {
+        //         obj[el] = creatorFilter[el];
+        //     }
+        // });
+        // console.log('obj = ', obj)
+        // obj.ownEntries = creatorFilter.ownEntries;
+        return creatorFilter;
+
+        // return obj;
     };
 
     loadMore = (startFrom) => {
+        console.log(startFrom);
+        console.log('contestsList', this.props.contestsList);
         this.props.getContests(Object.assign({}, {
             limit: 8,
             offset: startFrom
