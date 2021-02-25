@@ -15,6 +15,19 @@ module.exports.parseBody = (req, res, next) => {
   next();
 };
 
+module.exports.convertingQueryParam = (req, res, next)=>{
+  const { query: { offset, limit, typeIndex, ownEntries } } = req;
+  try {
+    req.query.offset = Number(offset);
+    req.query.limit = Number(limit);
+    req.query.typeIndex = Number(typeIndex);
+    req.query.ownEntries = ownEntries == 'true';
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports.canGetContest = async (req, res, next) => {
   let result = null;
   try {

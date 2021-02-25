@@ -10,7 +10,7 @@ const contestRouter = Router();
 
 contestRouter
   .route('/')
-  .get(checkToken.checkToken, basicMiddlewares.onlyForCreative, contestController.getContests);
+  .get(checkToken.checkToken, basicMiddlewares.onlyForCreative, basicMiddlewares.convertingQueryParam, contestController.getContests);
 
 contestRouter
   .route('/:contestId')
