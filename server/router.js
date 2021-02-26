@@ -1,13 +1,13 @@
 const { Router } = require('express');
 const basicMiddlewares = require('./middlewares/basicMiddlewares');
-const hashPass = require('./middlewares/hashPassMiddle');
+// const hashPass = require('./middlewares/hashPassMiddle');
 const userController = require('./controllers/userController');
 const contestController = require('./controllers/contestController');
 const checkToken = require('./middlewares/checkToken');
-const validators = require('./middlewares/validators');
+// const validators = require('./middlewares/validators');
 const chatController = require('./controllers/chatController');
 const upload = require('./utils/fileUpload');
-const { contestRouter, userRouter, customerRouter, authRouter } = require('./routers');
+const { contestRouter, userRouter, customerRouter, authRouter, chatRouter } = require('./routers');
 
 const router = Router();
 
@@ -25,6 +25,9 @@ router.use('/contests', contestRouter);
 //customerRouter
 router.use('/customer', customerRouter);
 
+//chatRouter
+router.use('/chat', chatRouter);
+
 ////
 router.get(
   '/downloadFile/:fileName',
@@ -38,13 +41,6 @@ router.post(
   upload.uploadLogoFiles,
   basicMiddlewares.canSendOffer,
   contestController.setNewOffer,
-);
-
-router.post(
-  '/setOfferStatus',
-  checkToken.checkToken,
-  basicMiddlewares.onlyForCustomerWhoCreateContest,
-  contestController.setOfferStatus,
 );
 
 router.post(
@@ -63,23 +59,23 @@ router.post(
 
 // chatRouter
 
-router.post(
-  '/newMessage',
-  checkToken.checkToken,
-  chatController.addMessage,
-);
+// router.post(
+//   '/newMessage',
+//   checkToken.checkToken,
+//   chatController.addMessage,
+// );
 
-router.post(
-  '/getChat',
-  checkToken.checkToken,
-  chatController.getChat,
-);
+// router.get(
+//   '/getChat/:interlocutorId',
+//   checkToken.checkToken,
+//   chatController.getChat,
+// );
 
-router.post(
-  '/getPreview',
-  checkToken.checkToken,
-  chatController.getPreview,
-);
+// router.get(
+//   '/getPreview',
+//   checkToken.checkToken,
+//   chatController.getPreview,
+// );
 
 router.post(
   '/blackList',
@@ -123,7 +119,7 @@ router.post(
   chatController.deleteCatalog,
 );
 
-router.post(
+router.get(
   '/getCatalogs',
   checkToken.checkToken,
   chatController.getCatalogs,

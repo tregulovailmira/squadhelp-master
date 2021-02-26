@@ -6,6 +6,7 @@ const userQueries = require('./queries/userQueries');
 const controller = require('../socketInit');
 const UtilFunctions = require('../utils/functions');
 const CONSTANTS = require('../constants');
+// const { localeData } = require('moment');
 
 module.exports.dataForContest = async (req, res, next) => {
   const response = {};
@@ -37,9 +38,11 @@ module.exports.dataForContest = async (req, res, next) => {
 };
 
 module.exports.getContestById = async (req, res, next) => {
+  const { params:{ contestId } } = req;
+
   try {
     let contestInfo = await db.Contests.findOne({
-      where: { id: req.headers.contestid },
+      where: { id: contestId },
       order: [
         [db.Offers, 'id', 'asc'],
       ],
@@ -193,33 +196,34 @@ const resolveOffer = async (
 
 module.exports.setOfferStatus = async (req, res, next) => {
   let transaction;
-  if (req.body.command === 'reject') {
+
+  const { params:{ contestId }, query:{ creatorId, offerId, orderId, priority, command } } = req;
+  if (command === 'reject') {
     try {
-      const offer = await rejectOffer(req.body.offerId, req.body.creatorId,
-        req.body.contestId);
+      const offer = await rejectOffer(offerId, creatorId, contestId);
       res.send(offer);
     } catch (err) {
       next(err);
     }
-  } else if (req.body.command === 'resolve') {
+  } else if (command === 'resolve') {
     try {
       transaction = await db.sequelize.transaction();
-      const winningOffer = await resolveOffer(req.body.contestId,
-        req.body.creatorId, req.body.orderId, req.body.offerId,
-        req.body.priority, transaction);
+      const winningOffer = await resolveOffer(contestId, creatorId, orderId, offerId, priority, transaction);
       res.send(winningOffer);
     } catch (err) {
-      transaction.rollback();
+      await transaction.rollback();
       next(err);
     }
   }
 };
 
 module.exports.getCustomersContests = (req, res, next) => {
+  const { query:{ limit, offset, status } } = req;
+
   db.Contests.findAll({
-    where: { status: req.headers.status, userId: req.tokenData.userId },
-    limit: req.body.limit,
-    offset: req.body.offset ? req.body.offset : 0,
+    where: { status, userId: req.tokenData.userId },
+    limit,
+    offset: offset ? offset : 0,
     order: [['id', 'DESC']],
     include: [
       {
@@ -233,7 +237,7 @@ module.exports.getCustomersContests = (req, res, next) => {
       contests.forEach(
         contest => contest.dataValues.count = contest.dataValues.Offers.length);
       let haveMore = true;
-      if (contests.length === 0) {
+      if (contests.length < limit) {
         haveMore = false;
       }
       res.send({ contests, haveMore });

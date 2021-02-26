@@ -10,7 +10,7 @@ const contestRouter = Router();
 
 contestRouter
   .route('/')
-  .get(checkToken.checkToken, basicMiddlewares.onlyForCreative, basicMiddlewares.convertingQueryParam, contestController.getContests);
+  .get(checkToken.checkToken, basicMiddlewares.onlyForCreative, basicMiddlewares.convertingQueryParams, contestController.getContests);
 
 contestRouter
   .route('/:contestId')
@@ -30,5 +30,11 @@ contestRouter
 contestRouter
   .route('/data')
   .post(checkToken.checkToken, contestController.dataForContest);
+
+contestRouter
+  .route('/:contestId/offerStatus')
+  .get(checkToken.checkToken, basicMiddlewares.onlyForCustomerWhoCreateContest, contestController.setOfferStatus);
+
+// contestRouter.post('/:contestId/offers', checkToken.checkToken, upload.uploadLogoFiles, basicMiddlewares.canSendOffer, contestController.setNewOffer);
 
 module.exports = contestRouter;

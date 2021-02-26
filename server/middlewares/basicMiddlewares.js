@@ -15,13 +15,18 @@ module.exports.parseBody = (req, res, next) => {
   next();
 };
 
-module.exports.convertingQueryParam = (req, res, next)=>{
+module.exports.convertingQueryParams = (req, res, next)=>{
   const { query: { offset, limit, typeIndex, ownEntries } } = req;
   try {
     req.query.offset = Number(offset);
     req.query.limit = Number(limit);
-    req.query.typeIndex = Number(typeIndex);
-    req.query.ownEntries = ownEntries == 'true';
+
+    if(typeIndex){
+      req.query.typeIndex = Number(typeIndex);
+    }
+    if(ownEntries){
+      req.query.ownEntries = ownEntries == 'true';
+    }
     next();
   } catch (error) {
     next(error);
@@ -30,15 +35,16 @@ module.exports.convertingQueryParam = (req, res, next)=>{
 
 module.exports.canGetContest = async (req, res, next) => {
   let result = null;
+  const { params:{ contestId } } = req;
   try {
     if (req.tokenData.role === CONSTANTS.CUSTOMER) {
       result = await bd.Contests.findOne({
-        where: { id: req.headers.contestid, userId: req.tokenData.userId },
+        where: { id: contestId, userId: req.tokenData.userId },
       });
     } else if (req.tokenData.role === CONSTANTS.CREATOR) {
       result = await bd.Contests.findOne({
         where: {
-          id: req.headers.contestid,
+          id: contestId,
           status: {
             [ bd.Sequelize.Op.or ]: [
               CONSTANTS.CONTEST_STATUS_ACTIVE,
@@ -99,7 +105,7 @@ module.exports.onlyForCustomerWhoCreateContest = async (req, res, next) => {
     const result = await bd.Contests.findOne({
       where: {
         userId: req.tokenData.userId,
-        id: req.body.contestId,
+        id: Number(req.params.contestId),
         status: CONSTANTS.CONTEST_STATUS_ACTIVE,
       },
     });

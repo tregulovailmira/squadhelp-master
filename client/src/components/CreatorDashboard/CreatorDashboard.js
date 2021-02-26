@@ -125,7 +125,6 @@ class CreatorDashboard extends React.Component {
 
     loadMore = (startFrom) => {
         console.log(startFrom);
-        console.log('contestsList', this.props.contestsList);
         this.props.getContests(Object.assign({}, {
             limit: 8,
             offset: startFrom
