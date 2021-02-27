@@ -17,13 +17,12 @@ const RegistrationPage = (props) => {
   };
 
   const renderFaqArticles = (articles)=>{
-    console.log(articles)
-   return articles.map((a, index) => 
+   return articles.map((article, index) => 
       <React.Fragment key={index}>
         <div className={ styles.headerArticle }>
-          {a.header}
+          {article.header}
         </div>
-        <div className={ styles.article } dangerouslySetInnerHTML={{ __html: a.body }}/>
+        <div className={ styles.article } dangerouslySetInnerHTML={{ __html: article.body }}/>
       </React.Fragment>
       )
   }

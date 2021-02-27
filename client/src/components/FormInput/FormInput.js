@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
 const FormInput = (props) => {
 
@@ -19,5 +20,23 @@ const FormInput = (props) => {
     </div>
   );
 };
+
+FormInput.propTypes = {
+  label: PropTypes.string.isRequired,
+  input: PropTypes.object.isRequired,
+  type: PropTypes.string.isRequired,
+  classes: PropTypes.shape({
+      container: PropTypes.string.isRequired,
+      input: PropTypes.string.isRequired,
+      warning: PropTypes.string.isRequired,
+      notValid: PropTypes.string.isRequired,
+      valid: PropTypes.string.isRequired,
+  }),
+  meta: PropTypes.shape({
+    touched: PropTypes.bool.isRequired, // TODO finished
+    error: PropTypes.string
+  })
+
+}
 
 export default FormInput;
