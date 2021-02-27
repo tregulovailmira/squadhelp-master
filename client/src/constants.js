@@ -86,5 +86,5 @@ export default {
       ],
     },
   ],
-  PHONE_NUMBER: '(877)355-3585'
+  SQUADHELP_PHONE: '(877)355-3585'
 };
