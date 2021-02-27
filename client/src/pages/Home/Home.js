@@ -8,6 +8,7 @@ import styles from './Home.module.sass';
 import carouselConstants from '../../carouselConstants';
 import {connect} from 'react-redux';
 import Spinner from '../../components/Spinner/Spinner';
+import BuyersInviteCard from '../../components/BuyersInviteCard'
 
 
 const Home = (props) => {
@@ -169,6 +170,7 @@ const Home = (props) => {
                             <img src={`${CONSTANTS.STATIC_IMAGES_PATH}gif/3-compressed.gif`} alt="compressed"/>
                         </div>
                     </div>
+                    <BuyersInviteCard />
                     <div className={styles.headerBar}>
                         <h3>Names For Sale</h3>
                         <p className={styles.blueUnderline}>Not interested in launching a contest?
@@ -186,6 +188,7 @@ const Home = (props) => {
                         <SlideBar images={carouselConstants.feedbackSliderImages}
                                   carouselType={carouselConstants.FEEDBACK_SLIDER}/>
                     </div>
+
                 </div>
                 <Footer/>
             </>)}
