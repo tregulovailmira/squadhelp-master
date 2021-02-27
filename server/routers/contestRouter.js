@@ -32,7 +32,7 @@ contestRouter
   .post(checkToken.checkToken, contestController.dataForContest);
 
 contestRouter
-  .route('/:contestId/offerStatus')
+  .route('/:contestId/offerStatus') // TODO route: offer, method - put/patch
   .get(checkToken.checkToken, basicMiddlewares.onlyForCustomerWhoCreateContest, contestController.setOfferStatus);
 
 // contestRouter.post('/:contestId/offers', checkToken.checkToken, upload.uploadLogoFiles, basicMiddlewares.canSendOffer, contestController.setNewOffer);
