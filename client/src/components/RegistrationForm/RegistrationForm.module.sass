@@ -6,7 +6,7 @@
   flex-direction: column
   justify-content: center
   align-items: center
-  margin-top: 50px
+  margin-top: 0px
   padding: 10px 20px 30px
   box-sizing: border-box
 
@@ -105,6 +105,7 @@
       width: auto
 
     .inputContainer
+      position: relative
       display: flex
       flex-direction: column
       justify-content: center
@@ -114,21 +115,33 @@
       flex: 1 1
 
       .fieldWarning
-        font-size: 15px
+        position: absolute
+        top: 83px
+        z-index: 100
+        font-size: 17px
         display: flex
         flex-direction: row
         justify-content: center
         align-items: center
         color: white
-        border: 1px solid #b72522
-        margin-bottom: 15px
-        padding-bottom: 5px
-        padding-top: 5px
+        background-color: #b72522
+        padding: 5px
         text-align: center
+
+        &::before
+          content: ''
+          position: absolute
+          width: 0
+          height: 0
+          border-style: solid
+          border-width: 0 10px 12px 10px
+          border-color: transparent transparent #b72422 transparent
+          top: -12px
+          left: 20px
 
     .input
       background-color: white
-      border: none
+      border: 2px solid white
       border-radius: 4px
       color: #9ca8b7
       font-size: 18px
@@ -140,37 +153,7 @@
         align-self: normal
 
     .notValid
-      border: 2px solid red !important
+      border: 2px solid red 
 
     .valid
       border: 2px solid green
-
-
-  // .headerFormContainer
-  //   display: flex
-  //   flex-direction: column
-  //   justify-content: center
-  //   align-items: center
-  //   margin-bottom: 18px
-  //   text-align: center
-
-
-  //   h2
-  //     color: white
-  //     font-size: 42px
-  //     font-weight: 600
-  //     line-height: 1.1
-  //     margin-top: 20px
-  //     margin-bottom: 10px
-  //     letter-spacing: 1px
-
-  //   h4
-  //     color: white
-  //     font-size: 20px
-  //     font-weight: 500
-  //     word-spacing: 3px
-  //     width: 88%
-  //     margin: 0
-  //     margin-bottom: 13px
-  //     text-align: center
-  //     line-height: 27px
