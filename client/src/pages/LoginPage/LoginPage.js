@@ -21,6 +21,7 @@ const LoginPage = (props) => {
                   style={ {textDecoration: 'none'} }><span>Signup</span></Link>
           </div>
         </div>
+        <h2>LOGIN TO YOUR ACCOUNT</h2>
         <div className={ styles.loginFormContainer }>
           <LoginForm changeRoute={ changeRoute }/>
         </div>
