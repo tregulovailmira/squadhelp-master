@@ -1,5 +1,3 @@
-
-
 module.exports = (sequelize, DataTypes) => {
   const Contest = sequelize.define('Contests', {
     id: {
@@ -88,6 +86,13 @@ module.exports = (sequelize, DataTypes) => {
   {
     timestamps: false,
   });
+
+  Contest.associate = function (models) {
+    Contest.belongsTo(models.Users,
+      { foreignKey: 'userId', targetKey: 'id' });
+    Contest.hasMany(models.Offers,
+      { foreignKey: 'contestId', sourceKey: 'id' });
+  };
 
   return Contest;
 };

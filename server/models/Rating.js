@@ -1,5 +1,3 @@
-
-
 module.exports = (sequelize, DataTypes) => {
   const Rating = sequelize.define('Ratings', {
     offerId: {
@@ -25,6 +23,13 @@ module.exports = (sequelize, DataTypes) => {
   {
     timestamps: false,
   });
+
+  Rating.associate = function(models) {
+    Rating.belongsTo(models.Users,
+      { foreignKey: 'userId', targetKey: 'id' });
+    Rating.belongsTo(models.Offers,
+      { foreignKey:'offerId', targetKey: 'id' });
+  };
 
   return Rating;
 };
