@@ -19,10 +19,6 @@ const RegistrationForm = (props) => {
 
   const { handleSubmit, submitting } = props;
 
-  // const initialValues = {
-  //   role: CONSTANTS.CUSTOMER,
-  // };
-
   const onSubmit = (values) => {
     register({
       firstName: values.firstName,
@@ -125,7 +121,12 @@ const RegistrationForm = (props) => {
   );
 }
 
+const initialValues = {
+  role: CONSTANTS.CUSTOMER,
+};
+
 export default reduxForm({
   form: 'login',
   validate: customValidator(Schems.RegistrationSchem),
+  initialValues: initialValues
 })(RegistrationForm);
