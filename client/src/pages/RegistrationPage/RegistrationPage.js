@@ -1,21 +1,32 @@
-import React from 'react';
-import Logo from '../../components/Logo';
-import RegistrationForm from '../../components/RegistrationForm/RegistrationForm';
-import styles from './RegistrationPage.module.sass';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { clearErrorSignUpAndLogin } from '../../actions/actionCreator';
+import { clearErrorSignUpAndLogin, clearAuth } from '../../actions/actionCreator';
+import RegistrationForm from '../../components/RegistrationForm/RegistrationForm';
+import Logo from '../../components/Logo';
+import Faq from '../../components/Faq';
+import Error from '../../components/Error/Error';
 import CONSTANTS from '../../constants';
 import articles from './articles.json'
-import Faq from '../../components/Faq';
+import styles from './RegistrationPage.module.sass';
 
 const RegistrationPage = (props) => {
-  props.clearError();
+
+  const dispatch = useDispatch();
+  const { error } = useSelector(state => state.auth);
+  const authClear = bindActionCreators(clearAuth, dispatch);
+  const clearError = bindActionCreators(clearErrorSignUpAndLogin, dispatch)
+
+  useEffect(() => {
+    clearError();
+  }, []);
 
   const changeRoute = () => {
     props.history.replace('/');
   };
 
+  console.log('error>>', error);
   const faqStyles = {
     articlesMainContainer:styles.articlesMainContainer,
     ColumnContainer: styles.ColumnContainer,
@@ -41,6 +52,7 @@ const RegistrationPage = (props) => {
             We always keep your name and email address private.
           </h4>
         </div>
+        { error && <Error data={ error.data } status={ error.status } clearError={ authClear }/> }
         <RegistrationForm changeRoute={ changeRoute }/>
       </div>
 
@@ -52,10 +64,4 @@ const RegistrationPage = (props) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    clearError: () => dispatch(clearErrorSignUpAndLogin()),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(RegistrationPage);
+export default RegistrationPage;

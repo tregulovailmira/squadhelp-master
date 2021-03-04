@@ -1,36 +1,27 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { authActionRegister, clearAuth } from '../../actions/actionCreator';
-import Error from '../Error/Error';
-import styles from './RegistrationForm.module.sass';
+import { authActionRegister } from '../../actions/actionCreator';
 import { Field, reduxForm } from 'redux-form';
+import customValidator from '../../validators/validator';
+import Schems from '../../validators/validationSchems';
 import FormInput from '../FormInput/FormInput';
 import RoleInput from '../RoleInput/RoleInput';
 import AgreeTermOfServiceInput from '../AgreeTermOfServiceInput/AgreeTermOfServiceInput';
 import CONSTANTS from '../../constants';
-import customValidator from '../../validators/validator';
-import Schems from '../../validators/validationSchems';
+import styles from './RegistrationForm.module.sass';
 
 const RegistrationForm = (props) => {
 
   const dispatch = useDispatch();
-  const { error } = useSelector(state => state.auth);
 
   const register = bindActionCreators(authActionRegister, dispatch);
-  const authClear = bindActionCreators(clearAuth, dispatch);
 
   const { handleSubmit, submitting } = props;
 
-  const initialValues = {
-    role: CONSTANTS.CUSTOMER,
-  };
-
-  useEffect(() => {
-    return () => {
-      authClear();
-    }
-  });
+  // const initialValues = {
+  //   role: CONSTANTS.CUSTOMER,
+  // };
 
   const onSubmit = (values) => {
     register({
@@ -53,8 +44,6 @@ const RegistrationForm = (props) => {
 
   return (
     <div className={ styles.signUpFormContainer }>
-      { error && <Error data={ error.data } status={ error.status }
-                        clearError={ authClear }/> }
       <form onSubmit={ handleSubmit(onSubmit) }>
         <div className={ styles.row }>
           <Field
@@ -117,10 +106,10 @@ const RegistrationForm = (props) => {
         <div className={ styles.termsOfService }>
           <Field
             name='agreeOfTerms'
-            classes={ {
+            classes={{
               container: styles.termsOfService,
               warning: styles.fieldWarning,
-            } }
+            }}
             id='termsOfService'
             component={ AgreeTermOfServiceInput }
             type='checkbox'

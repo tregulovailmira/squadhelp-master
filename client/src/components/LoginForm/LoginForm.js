@@ -1,29 +1,21 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { authActionLogin, clearAuth } from '../../actions/actionCreator';
-import styles from './LoginForm.module.sass';
 import { Field, reduxForm } from 'redux-form';
-import FormInput from '../FormInput/FormInput';
-import customValidator from '../../validators/validator';
+import { authActionLogin } from '../../actions/actionCreator';
 import Schems from '../../validators/validationSchems';
-import Error from '../../components/Error/Error';
+import customValidator from '../../validators/validator';
+import FormInput from '../FormInput/FormInput';
+import styles from './LoginForm.module.sass';
 
 const LoginForm = (props) => {
 
   const dispatch = useDispatch();
-  const { error, isFetching } = useSelector(state => state.auth);
+  const { isFetching } = useSelector(state => state.auth);
 
-  const authClear = bindActionCreators(clearAuth, dispatch);
   const loginRequest = bindActionCreators(authActionLogin, dispatch);
 
   const { handleSubmit, submitting } = props;
-
-  useEffect(() => {
-    return () => {
-      authClear();
-    };
-  });
 
   const onSubmit = (values) => {
     loginRequest(values);
@@ -38,9 +30,8 @@ const LoginForm = (props) => {
   };
 
   return (
+    <>
     <div className={ styles.loginForm }>
-      { error && <Error data={ error.data } status={ error.status }
-                        clearError={ authClear }/> }
       <form onSubmit={ handleSubmit(onSubmit) }>
         <Field
           name='email'
@@ -64,6 +55,7 @@ const LoginForm = (props) => {
         </button>
       </form>
     </div>
+    </>
   );
 }
 
