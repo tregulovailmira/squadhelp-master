@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
 import { bindActionCreators } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { clearAuth, clearErrorSignUpAndLogin } from '../../actions/actionCreator';
 import LoginForm from '../../components/LoginForm/LoginForm';
-import Logo from '../../components/Logo';
+import AuthHeader from '../../components/AuthHeader';
 import Error from '../../components/Error/Error';
-import CONSTANTS from '../../constants';
 import styles from './LoginPage.module.sass';
 
 const LoginPage = (props) => {
@@ -18,6 +16,7 @@ const LoginPage = (props) => {
 
   const { error } = useSelector(state => state.auth);
 
+  const { history: { location }} = props;
   useEffect(() => {
     return () => {
       clearError();
@@ -30,20 +29,11 @@ const LoginPage = (props) => {
 
   return (
     <div className={ styles.mainContainer }>
+      <AuthHeader location={location}/>
       <div className={ styles.loginContainer }>
-        <div className={ styles.headerSignUpPage }>
-          <Logo src={ `${ CONSTANTS.STATIC_IMAGES_PATH }logo.png` } alt="logo"/>
-          <div className={ styles.linkLoginContainer }>
-            <Link to='/registration' style={ {textDecoration: 'none'} }>
-              <span>Signup</span>
-            </Link>
-          </div>
-        </div>
         <h2>LOGIN TO YOUR ACCOUNT</h2>
         { error && <Error data={ error.data } status={ error.status } clearError={ authClear }/> }
-        <div className={ styles.loginFormContainer }>
-          <LoginForm changeRoute={ changeRoute }/>
-        </div>
+        <LoginForm changeRoute={ changeRoute }/>
       </div>
     </div>
   );

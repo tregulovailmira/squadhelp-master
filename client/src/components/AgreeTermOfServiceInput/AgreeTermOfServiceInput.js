@@ -5,7 +5,7 @@ const AgreeTermOfServiceInput = ({label, id,input, type, classes, meta: {touched
     return (
         <div>
             <div className={classes.container}>
-                <input {...input} placeholder={label} id={id} type={type}/>
+                <input {...input} placeholder={label} id={id} type={type} style={{marginRight: '5px'}}/>
                 <label htmlFor={id}>By clicking this checkbox, you agree to our <a
                     href="https://www.google.com" target={'_blank'}>Terms of Service.</a></label>
             </div>

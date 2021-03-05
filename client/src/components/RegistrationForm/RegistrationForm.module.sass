@@ -1,14 +1,9 @@
 .signUpFormContainer
-  width: 60%
+  max-width: 595px
   display: flex
-  min-width: 280px
-  margin: 0 auto
   flex-direction: column
   justify-content: center
-  align-items: center
-  margin-top: 0px
-  padding: 10px 20px 30px
-  box-sizing: border-box
+  padding: 20px 0
 
   .choseRoleContainer
     display: flex
@@ -17,8 +12,6 @@
     align-items: stretch
     align-self: stretch
     min-width: 260px
-    margin-left: 20px
-    margin-right: 20px
     @media(max-width: 850px)
       align-self: auto
 
@@ -31,11 +24,9 @@
     align-items: center
     background-color: #28d2d0
     height: 64px
-    margin-left: 20px
     padding: 0
     border: 0
     width: fill-available
-    margin-right: 20px
     @media(max-width: 850px)
       align-self: auto
 
@@ -45,64 +36,53 @@
     color: white
 
   .termsOfService
+    position: relative
     text-align: center
     color: white
     font-size: 16px
     min-width: 260px
     align-self: stretch
-    margin-right: 20px
-    margin-left: 20px
     margin-bottom: 10px
 
 
     .fieldWarning
-      font-size: 15px
+      position: absolute
+      left: 50%
+      transform: translate(-50%)
+      font-size: 17px
       display: flex
       flex-direction: row
       justify-content: center
       align-items: center
       color: white
-      border: 1px solid #b72522
-      margin-bottom: 15px
-      padding-bottom: 5px
-      padding-top: 5px
+      background-color: #b72522
+      padding: 5px
       text-align: center
 
-    @media(max-width: 850px)
-      align-self: auto
+      &::before
+        content: ''
+        position: absolute
+        width: 0
+        height: 0
+        border-style: solid
+        border-width: 0 10px 12px 10px
+        border-color: transparent transparent #b72422 transparent
+        top: -12px
+        left: 50
 
     a
       color: white
       font-size: 16px
-
-
-  .error
-    text-align: center
-    color: white
-    font-size: 20px
-    min-width: 260px
-    align-self: stretch
-    margin-right: 20px
-    margin-left: 20px
-    border: 1px solid white
-    background-color: red
-    padding-top: 5px
-    padding-bottom: 5px
-    border-radius: 6px
-    margin-bottom: 10px
-    @media(max-width: 850px)
-      align-self: auto
 
   .row
     width: 100%
     min-width: 260px
     display: flex
     flex-direction: row
-    flex-wrap: wrap
     align-items: center
     justify-content: space-between
-    @media (max-width: 795px)
-      width: auto
+    @media (max-width: 769px)
+      flex-direction: column
 
     .inputContainer
       position: relative
@@ -110,34 +90,45 @@
       flex-direction: column
       justify-content: center
       align-self: flex-start
-      margin-right: 20px
-      margin-left: 20px
+      width: 100%
+      margin-bottom: 20px
       flex: 1 1
 
-      .fieldWarning
-        position: absolute
-        top: 83px
-        z-index: 100
-        font-size: 17px
-        display: flex
-        flex-direction: row
-        justify-content: center
-        align-items: center
-        color: white
-        background-color: #b72522
-        padding: 5px
-        text-align: center
+      &:nth-last-child(2n)
+        margin-right: 10px
+        @media(max-width: 769px)
+          margin-right: 0 
 
-        &::before
-          content: ''
-          position: absolute
-          width: 0
-          height: 0
-          border-style: solid
-          border-width: 0 10px 12px 10px
-          border-color: transparent transparent #b72422 transparent
-          top: -12px
-          left: 20px
+      &:nth-last-child(2n+1)
+        margin-left: 10px  
+        @media(max-width: 769px)
+          margin-left: 0  
+        
+
+    .fieldWarning
+      position: absolute
+      top: 83px
+      z-index: 100
+      font-size: 17px
+      display: flex
+      flex-direction: row
+      justify-content: center
+      align-items: center
+      color: white
+      background-color: #b72522
+      padding: 5px
+      text-align: center
+
+      &::before
+        content: ''
+        position: absolute
+        width: 0
+        height: 0
+        border-style: solid
+        border-width: 0 10px 12px 10px
+        border-color: transparent transparent #b72422 transparent
+        top: -12px
+        left: 20px
 
     .input
       background-color: white
@@ -147,7 +138,6 @@
       font-size: 18px
       padding: 23px 20px 23px 20px
       outline: none
-      margin-bottom: 15px
       flex: 1
       @media(max-width: 1400px)
         align-self: normal

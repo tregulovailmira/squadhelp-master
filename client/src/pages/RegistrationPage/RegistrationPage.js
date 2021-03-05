@@ -1,13 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router-dom';
 import { clearErrorSignUpAndLogin, clearAuth } from '../../actions/actionCreator';
 import RegistrationForm from '../../components/RegistrationForm/RegistrationForm';
-import Logo from '../../components/Logo';
+import AuthHeader from '../../components/AuthHeader';
 import Faq from '../../components/Faq';
 import Error from '../../components/Error/Error';
-import CONSTANTS from '../../constants';
 import articles from './articles.json'
 import styles from './RegistrationPage.module.sass';
 
@@ -26,7 +24,8 @@ const RegistrationPage = (props) => {
     props.history.replace('/');
   };
 
-  console.log('error>>', error);
+  const { history: { location }} = props;
+
   const faqStyles = {
     articlesMainContainer:styles.articlesMainContainer,
     ColumnContainer: styles.ColumnContainer,
@@ -36,26 +35,18 @@ const RegistrationPage = (props) => {
 
   return (
     <div className={ styles.signUpPage }>
-
+      <AuthHeader location={location}/>
       <div className={ styles.signUpContainer }>
-        <div className={ styles.headerSignUpPage }>
-          <Logo src={ `${ CONSTANTS.STATIC_IMAGES_PATH }logo.png` }/>
-          <div className={ styles.linkLoginContainer }>
-            <Link to='/login' style={ {textDecoration: 'none'} }><span>Login</span></Link>
-          </div>
-        </div>
-        <div className={ styles.headerFormContainer }>
-          <h2>
-            CREATE AN ACCOUNT
-          </h2>
-          <h4>
-            We always keep your name and email address private.
-          </h4>
-        </div>
+        <h2>
+          CREATE AN ACCOUNT
+        </h2>
+        <h4>
+          We always keep your name and email address private.
+        </h4>
         { error && <Error data={ error.data } status={ error.status } clearError={ authClear }/> }
         <RegistrationForm changeRoute={ changeRoute }/>
       </div>
-
+      
       <div className={ styles.footer }>
         <Faq articles={articles} stylesClasses={faqStyles}/>
       </div>
