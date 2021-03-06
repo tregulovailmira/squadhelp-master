@@ -133,6 +133,14 @@ module.exports.payment = async (req, res, next) => {
       },
     },
     transaction);
+
+    const newExpence = {
+      type: 'payment',
+      userId: req.tokenData.userId,
+      sum: price,
+    };
+    await bd.Transactions.create(newExpence, { transaction });
+
     const orderId = uuid();
     contests.forEach((contest, index) => {
       const prize = index === contests.length - 1
@@ -209,7 +217,16 @@ module.exports.cashout = async (req, res, next) => {
       },
     },
     transaction);
+
+    const newCashout = {
+      type: 'cashout',
+      userId: req.tokenData.userId,
+      sum: req.body.sum,
+    };
+    await bd.Transactions.create(newCashout, { transaction });
+
     await transaction.commit();
+
     res.send({ balance: updatedUser.balance });
   } catch (err) {
     await transaction.rollback();
