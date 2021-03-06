@@ -13,7 +13,7 @@ module.exports = {
       },
       sum: {
         allowNull: false,
-        type: Sequelize.NUMERIC,
+        type: Sequelize.DECIMAL,
       },
       contestId: {
         allowNull: true,
@@ -23,7 +23,7 @@ module.exports = {
           key: 'id',
         },
       },
-      useId: {
+      userId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {

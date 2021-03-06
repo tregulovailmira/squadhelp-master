@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     sum: {
       allowNull: false,
-      type: DataTypes.NUMERIC,
+      type: DataTypes.DECIMAL,
     },
     contestId: {
       allowNull: true,
@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id',
       },
     },
-    useId: {
+    userId: {
       allowNull: false,
       type: DataTypes.INTEGER,
       references: {
