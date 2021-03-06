@@ -9,14 +9,6 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.DECIMAL,
     },
-    contestId: {
-      allowNull: true,
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'Contests',
-        key: 'id',
-      },
-    },
     userId: {
       allowNull: false,
       type: DataTypes.INTEGER,
@@ -34,8 +26,8 @@ module.exports = (sequelize, DataTypes) => {
   Transaction.associate = function (models) {
     Transaction.belongsTo(models.Users,
       { foreignKey: 'userId', targetKey: 'id' });
-    Transaction.belongsTo(models.Contests,
-      { foreignKey: 'contestId', targetKey: 'id' });
+    // Transaction.belongsTo(models.Contests,
+    //   { foreignKey: 'contestId', targetKey: 'id' });
   };
 
   return Transaction;

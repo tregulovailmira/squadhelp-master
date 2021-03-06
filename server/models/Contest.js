@@ -92,8 +92,6 @@ module.exports = (sequelize, DataTypes) => {
       { foreignKey: 'userId', targetKey: 'id' });
     Contest.hasMany(models.Offers,
       { foreignKey: 'contestId', sourceKey: 'id' });
-    Contest.belongsTo(models.Transactions,
-      { foreignKey: 'contestId', targetKey: 'id' });
   };
 
   return Contest;

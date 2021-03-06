@@ -15,14 +15,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DECIMAL,
       },
-      contestId: {
-        allowNull: true,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Contests',
-          key: 'id',
-        },
-      },
       userId: {
         allowNull: false,
         type: Sequelize.INTEGER,
