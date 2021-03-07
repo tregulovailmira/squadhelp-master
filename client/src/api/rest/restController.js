@@ -38,6 +38,9 @@ export const getContestById = ({contestId}) => {
     });
 };
 
+export const getTransactions = () => {
+    return http.get('users/transactions');
+}
 
 
 

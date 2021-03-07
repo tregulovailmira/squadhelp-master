@@ -1,20 +1,41 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { getTransactionAction } from '../../actions/actionCreator';
 
 function TransactionsTable(props) {
 
-    const { transactions, classes } = props;
+    const { classes } = props;
+
+    const dispatch = useDispatch();
+    const getTransactions = bindActionCreators(getTransactionAction, dispatch);
+    const { transactions, isFetching, error } = useSelector(state => state.transactions);
+
+    useEffect(() => {
+        getTransactions();
+    }, []);
 
     const renderTrasactions = (transactions) => {
         return transactions.map((transaction, index) => 
-        <tr>
+        <tr key={transaction.id}>
             <td>{index + 1}</td>
-            <td key={transaction.id} className={classes.tableData}>
+            <td className={classes.tableData}>
                 {`${transaction.type ? '+' : '-'}${transaction.sum}`}
             </td>
         </tr>);
     }
 
+    if(isFetching){
+        return <div>Loading...</div>;
+    };
+    if(error){
+        return <div>Error</div>;
+    };
+    if(!isFetching && !error) {
+        
+    };
+    
     return (
         <table className={classes.table}>
             <thead className={classes.tableHeader}>

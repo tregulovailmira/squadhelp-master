@@ -8,6 +8,7 @@ const controller = require('../socketInit');
 const userQueries = require('./queries/userQueries');
 const bankQueries = require('./queries/bankQueries');
 const ratingQueries = require('./queries/ratingQueries');
+const ServerError = require('../errors/ServerError');
 
 module.exports.login = async (req, res, next) => {
   try {
@@ -234,4 +235,15 @@ module.exports.cashout = async (req, res, next) => {
   }
 };
 
-
+module.exports.getTransactions = async (req, res, next) => {
+  const { tokenData: { userId } } = req;
+  try {
+    const foundTransactions = await bd.Transactions.findAll({
+      where: { userId },
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
+    });
+    res.status(200).send({ data: foundTransactions });
+  } catch (error) {
+    next(ServerError(error));
+  }
+};
